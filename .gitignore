@@ -1,7 +1,6 @@
-__pycache__/
-*.pyc
-.venv/
 
-reports/trades.csv
+*.pyc
 .pytest_cache/
 .ruff_cache/
+.venv/
+__pycache__/

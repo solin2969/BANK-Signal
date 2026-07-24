@@ -1,0 +1,370 @@
+
+# ==========================================================
+# SIGNAL GROUP : WAVE
+# ==========================================================
+
+if (
+    WavePosition<0.20
+    and
+    EnergySlope>0
+):
+    add_signal(i,"EARLY_WAVE_LONG","LONG",93,93,93)
+
+if (
+    WaveAcceleration>0
+):
+    add_signal(i,"WAVE_ACCELERATION","AUTO",93,93,93)
+
+if (
+    WaveStrength>80
+):
+    add_signal(i,"STRONG_WAVE","AUTO",95,95,95)
+
+if (
+    PressureIncreasing
+    and
+    PriceFlat
+):
+    add_signal(i,"PRESSURE_EXHAUSTION","EXIT50",95,95,95)
+
+if (
+    DeltaIncreasing
+    and
+    PriceFlat
+):
+    add_signal(i,"DELTA_EXHAUSTION","EXIT50",95,95,95)
+
+if (
+    NearSwingLow
+    and
+    EnergySlope>0
+):
+    add_signal(i,"SWING_REVERSAL_BUY","LONG",96,96,96)
+
+if (
+    StructureFailure
+):
+    add_signal(i,"EMERGENCY_EXIT_04","EXIT100",100,100,100)
+
+# ==========================================================
+# SIGNAL GROUP : NO TRADE
+# ==========================================================
+
+if (
+    EnergyFlat
+    and
+    VolumeFlat
+    and
+    DeltaFlat
+):
+    add_signal(i,"NO_TRADE_FLAT","IGNORE",99,99,99)
+
+if (
+    CompressionBars>20
+):
+    add_signal(i,"NO_TRADE_COMPRESSION","IGNORE",97,97,97)
+
+if (
+    MarketNoise
+):
+    add_signal(i,"NO_TRADE_NOISE","IGNORE",98,98,98)
+
+if (
+    DataQualityLow
+):
+    add_signal(i,"NO_TRADE_DATA","IGNORE",100,100,100)
+.
+# ==========================================================
+# SIGNAL GROUP : DNA ENGINE
+# ==========================================================
+
+if (
+    DNA=="TREND"
+    and
+    BodyRatio>0.70
+):
+    add_signal(i,"DNA_TREND_01","AUTO",92,92,92)
+
+if (
+    DNA=="TREND"
+    and
+    Energy>AvgEnergy
+):
+    add_signal(i,"DNA_TREND_02","AUTO",93,93,93)
+
+if (
+    EnergyRecovering
+):
+    add_signal(i,"ENERGY_RECOVER","AUTO",92,92,92)
+
+# ==========================================================
+# SIGNAL GROUP : STRUCTURE FAILURE
+# ==========================================================
+
+if (
+    TrendDirection>0
+    and
+    SwingBrokenDown
+):
+    add_signal(i,"STRUCTURE_FAILURE_LONG","EXIT100",99,99,99)
+
+if (
+    TrendDirection<0
+    and
+    SwingBrokenUp
+):
+    add_signal(i,"STRUCTURE_FAILURE_SHORT","EXIT100",99,99,99)
+
+# ==========================================================
+# SIGNAL GROUP : FINAL CONFIRMATION
+# ==========================================================
+
+if (
+    SignalCount>=3
+):
+    add_signal(i,"TRIPLE_CONFIRMATION","BOOST",96,96,96)
+
+if (
+    SignalCount>=5
+):
+    add_signal(i,"FIVE_CONFIRMATION","BOOST",98,98,98)
+
+if (
+    SignalCount>=7
+):
+    add_signal(i,"MASTER_CONFIRMATION","BOOST",100,100,100)
+
+# ==========================================================
+# SIGNAL GROUP : HARD BLOCKERS
+# ==========================================================
+
+if (
+    OppositeWhale
+):
+    add_signal(i,"BLOCK_OPPOSITE_WHALE","BLOCK",100,100,100)
+
+if (
+    MultiBarrierHit
+):
+    add_signal(i,"BLOCK_MULTI_BARRIER","BLOCK",100,100,100)
+
+if (
+    TrendCompletelyFinished
+):
+    add_signal(i,"BLOCK_TREND_FINISHED","BLOCK",100,100,100)
+
+if (
+    RegimeFlipConfirmed
+):
+    add_signal(i,"BLOCK_REGIME_CHANGE","BLOCK",100,100,100)
+
+if (
+    ExtremeExhaustion
+):
+    add_signal(i,"BLOCK_EXHAUSTION","BLOCK",100,100,100)
+
+if (
+    ExitScore>=100
+):
+    add_signal(i,"MASTER_EXIT_ALL","EXIT100",100,100,100)
+.
+# ==========================================================
+# SIGNAL GROUP : SIGNAL CONFLUENCE ENGINE
+# ==========================================================
+
+if (
+    EnergySignal
+    and
+    DeltaSignal
+):
+    add_signal(i,"CONFLUENCE_02","BOOST",92,92,92)
+
+if (
+    EnergySignal
+    and
+    DeltaSignal
+    and
+    PressureSignal
+):
+    add_signal(i,"CONFLUENCE_03","BOOST",94,94,94)
+
+if (
+    EnergySignal
+    and
+    DeltaSignal
+    and
+    PressureSignal
+    and
+    WhaleSignal
+):
+    add_signal(i,"CONFLUENCE_04","BOOST",97,97,97)
+
+if (
+    EnergySignal
+    and
+    DeltaSignal
+    and
+    PressureSignal
+    and
+    WhaleSignal
+    and
+    WaveSignal
+):
+    add_signal(i,"CONFLUENCE_05","BOOST",99,99,99)
+
+# ==========================================================
+# SIGNAL GROUP : SIGNAL CASCADE
+# ==========================================================
+
+if (
+    SignalDensity>=3
+):
+    add_signal(i,"CASCADE_03","BOOST",93,93,93)
+
+if (
+    SignalDensity>=5
+):
+    add_signal(i,"CASCADE_05","BOOST",95,95,95)
+
+if (
+    SignalDensity>=8
+):
+    add_signal(i,"CASCADE_08","BOOST",97,97,97)
+
+if (
+    SignalDensity>=10
+):
+    add_signal(i,"CASCADE_10","BOOST",99,99,99)
+
+# ==========================================================
+# SIGNAL GROUP : TREND QUALITY
+# ==========================================================
+
+if (
+    TrendScore>60
+):
+    add_signal(i,"TREND_Q1","AUTO",90,90,90)
+
+if (
+    TrendScore>70
+):
+    add_signal(i,"TREND_Q2","AUTO",92,92,92)
+
+if (
+    TrendScore>80
+):
+    add_signal(i,"TREND_Q3","AUTO",95,95,95)
+
+if (
+    TrendScore>90
+):
+    add_signal(i,"TREND_Q4","AUTO",98,98,98)
+
+# ==========================================================
+# SIGNAL GROUP : POSITION MANAGEMENT
+# ==========================================================
+
+if (
+    EntryScore>90
+    and
+    ExitScore<30
+):
+    add_signal(i,"FULL_POSITION","SIZE100",99,99,99)
+
+if (
+    EntryScore>80
+):
+    add_signal(i,"POSITION_75","SIZE75",95,95,95)
+
+if (
+    EntryScore>70
+):
+    add_signal(i,"POSITION_50","SIZE50",93,93,93)
+
+if (
+    EntryScore>60
+):
+    add_signal(i,"POSITION_25","SIZE25",90,90,90)
+
+if (
+    ExitScore>=100
+):
+    add_signal(i,"FORCE_CLOSE","EXIT100",100,100,100)
+
+if (
+    EntryScore>=80
+    and
+    ExitScore>=70
+):
+    add_signal(i,"MASTER_SCALP","SCALP",98,98,98)
+
+if (
+    ExitScore>=100
+):
+    add_signal(i,"MASTER_FORCE_EXIT","EXIT100",100,100,100)
+
+if (
+    BlockScore>0
+):
+    add_signal(i,"MASTER_BLOCK","IGNORE",100,100,100)
+
+if (
+    StructureAcceleration
+):
+    add_signal(i,"STRUCTURE_ACCELERATION","AUTO",95,95,95)
+
+if (
+    LiquidityAbsorption
+):
+    add_signal(i,"LIQUIDITY_ABSORPTION","AUTO",96,96,96)
+
+# ==========================================================
+# SIGNAL GROUP : MOMENTUM CYCLE
+# ==========================================================
+
+if (
+    MomentumCycle=="START"
+):
+    add_signal(i,"MOMENTUM_START","AUTO",94,94,94)
+
+if (
+    MomentumCycle=="MID"
+):
+    add_signal(i,"MOMENTUM_MIDDLE","AUTO",92,92,92)
+
+if (
+    MomentumCycle=="RESET"
+):
+    add_signal(i,"MOMENTUM_RESET","WAIT",90,90,90)
+
+if (
+    SupportStrength>70
+):
+    add_signal(i,"SUPPORT_MAJOR","LONG",96,96,96)
+
+# ==========================================================
+# SIGNAL GROUP : POSITION PYRAMID
+# ==========================================================
+
+if (
+    Profit>1
+    and
+    EntryScore>90
+    and
+    TrendStrength>85
+):
+    add_signal(i,"PYRAMID_LEVEL1","ADD25",95,95,95)
+
+if (
+    Profit>2
+    and
+    TrendStrength>90
+):
+    add_signal(i,"PYRAMID_LEVEL2","ADD20",97,97,97)
+
+if (
+    Profit>3
+    and
+    WhaleStillInside
+):
+    add_signal(i,"PYRAMID_LEVEL3","ADD10",99,99,99)

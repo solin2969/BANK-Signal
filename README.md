@@ -23,7 +23,9 @@ python -m banksignal.cli rules                      # what the rule file contain
 python -m banksignal.cli backtest --no-short        # full backtest + report
 python -m banksignal.cli signals --tail 20          # signals of the latest bars
 python scripts/edge_analysis.py                     # is there any edge at all?
+python scripts/diagnostics.py                       # why trades fail + build rules/bank_filtered.csv
 python scripts/optimize.py --train-end 2021-12-31   # grid search execution params
+python scripts/validate.py                          # out-of-sample check of the choices above
 ```
 
 Reports are written to `reports/`: `backtest_report.md`, `equity_curve.png`,
@@ -130,6 +132,65 @@ conclusion is that it needs different features/timeframes, not different
 execution parameters - tuning the execution grid (576 combinations) never
 produced an out-of-sample edge.
 
+## Quality filtering: `rules/bank_filtered.csv`
+
+`scripts/diagnostics.py` measures every directional rule on the training window
+only (2020-2021) and keeps a rule when it has, on at least two of the horizons
+6h/24h/72h, an edge of >= 0.02pp over the unconditional forward return with
+`t >= 1.5`, at least 100 signals and a firing rate <= 35%. It writes
+`reports/rule_quality.csv` (every rule with its edge, t-stat and rejection
+reason) and copies the surviving blocks verbatim into `rules/bank_filtered.csv`,
+which the same parser executes.
+
+**11 of 105 directional rules survived** - the rejected ones:
+
+| reason | rules |
+| --- | ---: |
+| no consistent edge | 62 |
+| too few signals (<100) | 21 |
+| fires on more than 35% of bars | 11 |
+
+The survivors are three long entries (`SUPPORT_MAJOR`, `SWING_REVERSAL_BUY`,
+`EARLY_WAVE_LONG`) and eight exits (`MASTER_FORCE_EXIT`, `MASTER_EXIT_ALL`,
+`FORCE_CLOSE`, `EMERGENCY_EXIT_04`, `STRUCTURE_FAILURE_LONG/SHORT`,
+`DELTA_EXHAUSTION`, `PRESSURE_EXHAUSTION`). **No short rule survived.**
+
+**9 of the 11 keep a positive 24h edge out-of-sample** (2022-2026), so the
+selection is not pure curve fitting - but the edge shrinks by roughly a half to
+a third (e.g. `MASTER_FORCE_EXIT` 0.19pp -> 0.07pp), which is the same order of
+magnitude as the 0.12pp round-trip cost.
+
+Backtest with the filtered file (`--rules rules/bank_filtered.csv`, long only,
+same execution parameters as above):
+
+| window | filtered | all rules |
+| --- | ---: | ---: |
+| full period return | **-3.5%** | -16.0% |
+| out-of-sample return | **+13.1%** | -34.9% |
+| max drawdown | -30.4% | -48.3% |
+| trades | 613 | 2 473 |
+| profit factor | 1.03 | 1.03 |
+
+Filtering removes most of the damage but does not create a profitable system:
+`reports/validation.md` shows that re-tuning the execution parameters on the
+filtered rules gives +45% in-sample and -13% out-of-sample, and that **none of
+the 20 best in-sample parameter sets is positive out-of-sample** - the
+remaining edge is smaller than the trading costs plus the parameter noise.
+
+### Why the trades fail (`reports/diagnostics.md`)
+
+* the exit engine dominates: most positions are closed by `SIGNAL_EXIT`
+  long before the 24-72h horizon at which the surviving rules actually have
+  their edge;
+* average MFE +0.6% against average MAE -0.4% with only 20% of trades ever more
+  than 1% in profit - winners are cut early, so the win rate near 44% cannot
+  pay the costs;
+* losses concentrate in `RANGE` structure and low-volatility buckets, where the
+  entry rules keep firing;
+* the worst entry rules in real trades (`FIB_236_LONG`, `MARUBOZU_BULL`,
+  `SWING_REVERSAL_BUY` in the unfiltered set) are exactly those the edge test
+  rejects.
+
 ### Where to iterate
 
 1. Replace the interpretations of the weakest variables in `features.py` (they
@@ -163,3 +224,8 @@ system.
 * تحلیل `scripts/edge_analysis.py` نشان می‌دهد بازده آینده بعد از سیگنال‌ها
   تقریباً برابر بازده پایه است؛ بنابراین قبل از معامله‌ی واقعی باید تعریف
   متغیرها یا تایم‌فریم تغییر کند.
+* `scripts/diagnostics.py` علت خطاها را استخراج می‌کند و فقط قوانین باکیفیت را
+  در `rules/bank_filtered.csv` نگه می‌دارد: از ۱۰۵ قانون جهت‌دار فقط ۱۱ تا
+  (۳ ورود لانگ و ۸ خروج) از فیلتر عبور کردند و ۹ تای آن‌ها خارج از نمونه هم
+  edge مثبت دارند. با این فایل، ضرر کل دوره از −۱۶٪ به −۳.۵٪ و ضرر خارج از
+  نمونه به +۱۳٪ تغییر می‌کند، اما هنوز سیستم سودده پایدار نیست.
