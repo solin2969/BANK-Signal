@@ -37,6 +37,10 @@ class BreakoutConfig:
     bad_weekday: int = 5  # Saturday
     h4_strength_reject_pctl: float = 0.9  # veto only the strongest 10% opposing 4h trends
     h4_strength_window: int = 500
+    whale_signal: bool = True  # independent order-flow entries (OR with the breakout)
+    whale_percentile: float = 0.95
+    risk_per_trade: float = 0.01  # fraction of equity risked per trade (R-based sizing)
+    r_multiple_cap: float = 10.0  # a near-zero stop distance would otherwise give absurd R
     hold_bars: int = 10
     rr: float = 2.0
     staircase_tiers: tuple[tuple[float, float], ...] = (
@@ -59,6 +63,7 @@ TRADE_COLUMNS = [
     "signal_time",
     "entry_time",
     "direction",
+    "signal_source",
     "entry_price",
     "initial_stop",
     "target",
@@ -132,9 +137,51 @@ def build_breakout_signals(df: pd.DataFrame, cfg: BreakoutConfig) -> pd.DataFram
     strong_opp = d["h4_strength_rank"] >= cfg.h4_strength_reject_pctl
     reject_long = d["h4_trend_down"].fillna(False) & strong_opp.fillna(False)
     reject_short = d["h4_trend_up"].fillna(False) & strong_opp.fillna(False)
+    breakout_long = (core_long & ~reject_long).fillna(False)
+    breakout_short = (core_short & ~reject_short).fillna(False)
 
-    d["long_signal"] = (core_long & ~reject_long).fillna(False)
-    d["short_signal"] = (core_short & ~reject_short).fillna(False)
+    whale_long = pd.Series(False, index=d.index)
+    whale_short = pd.Series(False, index=d.index)
+    if cfg.whale_signal and "TakerBuyBase" in d.columns:
+        delta = 2 * d["TakerBuyBase"] - d["Volume"]
+        sell_vol = d["Volume"] - d["TakerBuyBase"]
+        buy_thr = (
+            d["TakerBuyBase"].shift(1)
+            .rolling(cfg.compression_trail, min_periods=cfg.compression_trail)
+            .quantile(cfg.whale_percentile)
+        )
+        sell_thr = (
+            sell_vol.shift(1)
+            .rolling(cfg.compression_trail, min_periods=cfg.compression_trail)
+            .quantile(cfg.whale_percentile)
+        )
+        whale_long = (
+            (d["TakerBuyBase"] > buy_thr)
+            & (delta > 0)
+            & d["h4_trend_up"].fillna(False)
+            & d["good_time_window"]
+        ).fillna(False)
+        whale_short = (
+            (sell_vol > sell_thr)
+            & (delta < 0)
+            & d["h4_trend_down"].fillna(False)
+            & d["good_time_window"]
+        ).fillna(False)
+
+    d["long_signal"] = breakout_long | whale_long
+    d["short_signal"] = breakout_short | whale_short
+    d["signal_source"] = np.select(
+        [
+            breakout_long & whale_long,
+            breakout_long,
+            whale_long,
+            breakout_short & whale_short,
+            breakout_short,
+            whale_short,
+        ],
+        ["both_long", "breakout_long", "whale_long", "both_short", "breakout_short", "whale_short"],
+        default="none",
+    )
     if not cfg.allow_short:
         d["short_signal"] = False
     return d
@@ -214,6 +261,7 @@ def run_breakout(df: pd.DataFrame, cfg: BreakoutConfig | None = None) -> pd.Data
     times = d.index
     long_sig = d["long_signal"].to_numpy()
     short_sig = d["short_signal"].to_numpy()
+    source = d["signal_source"].to_numpy()
     roll_high = d["roll_high"].to_numpy()
     roll_low = d["roll_low"].to_numpy()
 
@@ -242,6 +290,7 @@ def run_breakout(df: pd.DataFrame, cfg: BreakoutConfig | None = None) -> pd.Data
                 times[i],
                 times[entry_idx],
                 direction,
+                source[i],
                 entry,
                 stop0,
                 target,
@@ -262,10 +311,22 @@ class BreakoutReport:
     metrics: dict = field(default_factory=dict)
 
 
-def summarise(trades: pd.DataFrame, train_end: str | pd.Timestamp) -> BreakoutReport:
+def summarise(
+    trades: pd.DataFrame,
+    train_end: str | pd.Timestamp,
+    cfg: BreakoutConfig | None = None,
+) -> BreakoutReport:
+    """Equity compounds a fixed fraction of capital risked per trade (R-based
+    sizing): each trade contributes ``risk_per_trade * R`` where ``R`` is the
+    trade's return divided by its stop distance, capped to ``r_multiple_cap``
+    (a handful of trades have near-zero stop distances that would otherwise
+    produce absurd R multiples no real exchange leverage allows)."""
+    cfg = cfg or BreakoutConfig()
     t = trades.copy()
     t["entry_time"] = pd.to_datetime(t["entry_time"], utc=True)
-    t["equity"] = (1 + t["ret_pct"]).cumprod()
+    risk_pct = (t["entry_price"] - t["initial_stop"]).abs() / t["entry_price"]
+    t["r_multiple"] = (t["ret_pct"] / risk_pct).clip(-1.5, cfg.r_multiple_cap)
+    t["equity"] = (1 + cfg.risk_per_trade * t["r_multiple"]).clip(lower=0.01).cumprod()
     te = pd.Timestamp(train_end)
     te = te.tz_localize("utc") if te.tzinfo is None else te.tz_convert("utc")
 
@@ -274,13 +335,16 @@ def summarise(trades: pd.DataFrame, train_end: str | pd.Timestamp) -> BreakoutRe
             return {"trades": 0}
         wins = x.loc[x.ret_pct > 0, "ret_pct"].sum()
         losses = -x.loc[x.ret_pct <= 0, "ret_pct"].sum()
-        eq = (1 + x.ret_pct).cumprod()
+        eq = (1 + cfg.risk_per_trade * x["r_multiple"]).clip(lower=0.01).cumprod()
+        full = (1 + x.ret_pct).cumprod()
         return {
             "trades": int(len(x)),
             "win_rate_pct": float((x.ret_pct > 0).mean() * 100),
             "profit_factor": float(wins / losses) if losses > 0 else float("inf"),
+            "avg_r_multiple": float(x["r_multiple"].mean()),
             "total_return_pct": float((eq.iloc[-1] - 1) * 100),
             "max_drawdown_pct": float((eq / eq.cummax() - 1).min() * 100),
+            "full_allocation_return_pct": float((full.iloc[-1] - 1) * 100),
         }
 
     metrics = {
@@ -288,5 +352,8 @@ def summarise(trades: pd.DataFrame, train_end: str | pd.Timestamp) -> BreakoutRe
         "train": block(t[t.entry_time < te]),
         "test": block(t[t.entry_time >= te]),
         "by_exit": t.exit_reason.value_counts().to_dict(),
+        "by_source": t.signal_source.value_counts().to_dict()
+        if "signal_source" in t
+        else {},
     }
     return BreakoutReport(trades=t, train_end=te, metrics=metrics)

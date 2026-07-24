@@ -32,7 +32,7 @@ def main() -> int:
         candles.index = candles.index.tz_localize("utc")
     cfg = BreakoutConfig(allow_short=not args.no_short, causal_trailing=not args.optimistic)
     trades = run_breakout(candles, cfg)
-    report = summarise(trades, args.train_end)
+    report = summarise(trades, args.train_end, cfg)
 
     out = Path(args.out)
     out.mkdir(parents=True, exist_ok=True)
