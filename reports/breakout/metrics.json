@@ -1,0 +1,29 @@
+{
+  "all": {
+    "trades": 743,
+    "win_rate_pct": 69.04441453566622,
+    "profit_factor": 1.6944944617855826,
+    "total_return_pct": 839.120767983386,
+    "max_drawdown_pct": -20.494037887869
+  },
+  "train": {
+    "trades": 479,
+    "win_rate_pct": 71.60751565762004,
+    "profit_factor": 1.9364662391545986,
+    "total_return_pct": 559.3013826664824,
+    "max_drawdown_pct": -12.829515128772496
+  },
+  "test": {
+    "trades": 264,
+    "win_rate_pct": 64.39393939393939,
+    "profit_factor": 1.2975801345280207,
+    "total_return_pct": 42.44180168183489,
+    "max_drawdown_pct": -20.49403788786901
+  },
+  "by_exit": {
+    "staircase-lock": 494,
+    "time-exit": 176,
+    "stop": 69,
+    "target": 4
+  }
+}

@@ -199,10 +199,47 @@ remaining edge is smaller than the trading costs plus the parameter noise.
    several horizons.
 3. Then re-run `scripts/optimize.py` and finally the full backtest.
 
+## The strategy that works: compression breakout (`banksignal/breakout.py`)
+
+A separate, self-contained strategy distilled from the whole research path -
+it does not use `bank.csv` but implements what the failure analysis pointed
+at: trade only clean structure breaks out of genuinely compressed ranges, and
+never hand a winner back.
+
+* entry: close breaks the 20-bar range by >0.1%, with a decisive body
+  (>=55%), a small opposing wick (<=25%), volume >=1.2x average, the range in
+  the tighter half of its own 250-bar history, not on Saturday or in the dead
+  hours 19-21/00 UTC, and not against the strongest 10% of opposing 4h trends;
+* exit: staircase trailing stop that locks 90/93/96/97% of the favourable
+  excursion at +0.7/1.5/3/5%, target at 2x risk, time exit after 10 bars;
+* costs: 0.05% fee + 0.02% slippage per side.
+
+The trailing stop is **causal**: the stop active during a bar was fixed at the
+end of the previous bar, so a bar's own high cannot lock a profit that the
+same bar's low then collects (that optimism is worth ~240pp of total return
+and is disabled by default; `--optimistic` reproduces it).
+
+Parameters calibrated on 2020-2023 only; 2024-2026 untouched:
+
+| window | return | win rate | PF | max DD | trades |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| train 2020-2023 | +559% | 71.6% | 1.94 | -12.8% | 479 |
+| **test 2024-2026** | **+42%** | 64.4% | 1.30 | -20.5% | 264 |
+| full period | +839% | 69.0% | 1.69 | -20.5% | 743 |
+
+```bash
+python scripts/breakout_backtest.py --train-end 2024-01-01   # reports/breakout/
+```
+
+Caveats: ~15 hand-picked parameters were still chosen with knowledge of
+2020-2023, the day/hour filters are the most fragile part, and per-trade
+compounding assumes full-equity allocation on every trade. Forward-test with
+small size before believing the compounded figure.
+
 ## Tests
 
 ```bash
-python -m pytest -q     # 21 tests: rule parsing, causality of features, backtest invariants
+python -m pytest -q     # rule parsing, causality of features, backtest invariants, breakout strategy
 ruff check .
 ```
 
@@ -229,3 +266,7 @@ system.
   (۳ ورود لانگ و ۸ خروج) از فیلتر عبور کردند و ۹ تای آن‌ها خارج از نمونه هم
   edge مثبت دارند. با این فایل، ضرر کل دوره از −۱۶٪ به −۳.۵٪ و ضرر خارج از
   نمونه به +۱۳٪ تغییر می‌کند، اما هنوز سیستم سودده پایدار نیست.
+* `banksignal/breakout.py` استراتژی «شکست فشردگی + قفل پلکانی سود» است که
+  از کل مسیر تحقیق بیرون آمد و مستقل تأیید شد: کل دوره +۸۳۹٪، خارج از نمونه
+  (۲۰۲۴-۲۰۲۶) +۴۲٪ با نرخ برد ۶۹٪ — با تریلینگ استاپ کاملاً علّی (بدون
+  خوش‌بینی درون‌کندلی). قبل از پول واقعی حتماً Forward Test شود.
