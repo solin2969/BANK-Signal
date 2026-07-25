@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BANK-Signal — داشبورد لایو</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+:root{--bg:#0d1117;--card:#161b22;--border:#30363d;--text:#e6edf3;--dim:#8b949e;--green:#3fb950;--red:#f85149;--blue:#58a6ff}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:Vazirmatn,Tahoma,sans-serif;padding:20px;max-width:1100px;margin:auto}
+h1{font-size:1.4rem;margin-bottom:4px}
+.sub{color:var(--dim);font-size:.85rem;margin-bottom:20px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:20px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px}
+.card .label{color:var(--dim);font-size:.75rem;margin-bottom:6px}
+.card .value{font-size:1.3rem;font-weight:700}
+.green{color:var(--green)}.red{color:var(--red)}.blue{color:var(--blue)}
+.badge{display:inline-block;padding:2px 10px;border-radius:12px;font-size:.75rem;font-weight:700}
+.badge.paper{background:#bb800933;color:#d29922}
+.badge.live{background:#3fb95033;color:var(--green)}
+.section{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:20px}
+.section h2{font-size:1rem;margin-bottom:12px;color:var(--blue)}
+table{width:100%;border-collapse:collapse;font-size:.8rem}
+th,td{padding:6px 8px;text-align:right;border-bottom:1px solid var(--border)}
+th{color:var(--dim);font-weight:400}
+canvas{max-height:280px}
+#pos{font-size:.9rem;line-height:1.9}
+.err{color:var(--red);padding:20px;text-align:center}
+</style>
+</head>
+<body>
+<h1>BANK-Signal — داشبورد استراتژی شکست فشردگی <span id="mode" class="badge paper">PAPER</span></h1>
+<div class="sub">به‌روزرسانی خودکار هر ساعت از GitHub Actions — <span id="updated">…</span></div>
+
+<div class="grid">
+  <div class="card"><div class="label">قیمت <span id="sym">BTCUSDT</span></div><div class="value blue" id="price">…</div></div>
+  <div class="card"><div class="label">موجودی (ضریب)</div><div class="value" id="equity">…</div></div>
+  <div class="card"><div class="label">تعداد معاملات</div><div class="value" id="trades">…</div></div>
+  <div class="card"><div class="label">نرخ برد</div><div class="value" id="winrate">…</div></div>
+  <div class="card"><div class="label">شروع معاملهٔ واقعی</div><div class="value" id="paperuntil" style="font-size:.95rem">…</div></div>
+</div>
+
+<div class="section"><h2>پوزیشن باز</h2><div id="pos">…</div></div>
+<div class="section"><h2>منحنی موجودی (بر اساس معاملات paper)</h2><canvas id="chart"></canvas></div>
+<div class="section"><h2>آخرین معاملات</h2><div style="overflow-x:auto"><table id="tbl">
+<thead><tr><th>ورود</th><th>خروج</th><th>جهت</th><th>منبع</th><th>قیمت ورود</th><th>قیمت خروج</th><th>دلیل</th><th>بازده٪</th><th>R</th></tr></thead>
+<tbody></tbody></table></div></div>
+
+<script>
+async function load(){
+  try{
+    const s=await (await fetch('status.json?_='+Date.now())).json();
+    document.getElementById('sym').textContent=s.symbol;
+    document.getElementById('price').textContent=s.price.toLocaleString();
+    const eq=document.getElementById('equity');
+    eq.textContent='x'+s.equity.toFixed(4);
+    eq.className='value '+(s.equity>=1?'green':'red');
+    document.getElementById('trades').textContent=s.trades;
+    document.getElementById('winrate').textContent=s.trades?(100*s.wins/s.trades).toFixed(1)+'%':'—';
+    document.getElementById('paperuntil').textContent=s.paper_until;
+    document.getElementById('updated').textContent=s.updated_at+' UTC | آخرین کندل: '+s.last_bar;
+    const badge=document.getElementById('mode');
+    badge.textContent=s.mode.toUpperCase();
+    badge.className='badge '+(s.mode==='paper'?'paper':'live');
+    const pos=document.getElementById('pos');
+    if(s.position){
+      const p=s.position;
+      pos.innerHTML=`<span class="${p.direction==='long'?'green':'red'}">${p.direction==='long'?'🟢 LONG':'🔴 SHORT'}</span>
+        | منبع: ${p.source} | ورود: ${p.entry_price.toLocaleString()} | استاپ فعلی: ${p.stop.toLocaleString()}
+        | هدف: ${p.target.toLocaleString()} | کندل نگه‌داشته: ${p.bars_held}`;
+    } else pos.textContent='پوزیشن بازی وجود ندارد.';
+    const t=s.recent_trades||[];
+    const tb=document.querySelector('#tbl tbody');
+    tb.innerHTML=t.slice().reverse().map(r=>`<tr>
+      <td>${r.entry_time}</td><td>${r.exit_time}</td>
+      <td class="${r.direction==='long'?'green':'red'}">${r.direction}</td>
+      <td>${r.source}</td><td>${(+r.entry_price).toLocaleString()}</td>
+      <td>${(+r.exit_price).toLocaleString()}</td><td>${r.exit_reason}</td>
+      <td class="${r.ret_pct>0?'green':'red'}">${(100*r.ret_pct).toFixed(2)}</td>
+      <td>${(+r.r_multiple).toFixed(2)}</td></tr>`).join('');
+    if(t.length){
+      new Chart(document.getElementById('chart'),{type:'line',data:{
+        labels:t.map(r=>r.exit_time.slice(0,16)),
+        datasets:[{label:'equity',data:t.map(r=>r.equity),borderColor:'#58a6ff',backgroundColor:'#58a6ff22',fill:true,tension:.2,pointRadius:0}]},
+        options:{plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#8b949e',maxTicksLimit:10}},y:{ticks:{color:'#8b949e'}}}}});
+    }
+  }catch(e){document.body.insertAdjacentHTML('beforeend','<div class="err">هنوز داده‌ای ثبت نشده — بعد از اولین اجرای ساعتی پر می‌شود.</div>');}
+}
+load();
+setInterval(load, 5*60*1000);
+</script>
+</body>
+</html>

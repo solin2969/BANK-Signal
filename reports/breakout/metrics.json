@@ -1,0 +1,43 @@
+{
+  "all": {
+    "trades": 1655,
+    "win_rate_pct": 70.09063444108762,
+    "profit_factor": 1.6619313819562873,
+    "avg_r_multiple": 0.06291218815149852,
+    "total_return_pct": 175.73851439387334,
+    "max_drawdown_pct": -14.189507668550693,
+    "full_allocation_return_pct": 17874.295357787334
+  },
+  "train": {
+    "trades": 1062,
+    "win_rate_pct": 71.46892655367232,
+    "profit_factor": 1.7594520210551627,
+    "avg_r_multiple": 0.08050685233461881,
+    "total_return_pct": 131.28144274752347,
+    "max_drawdown_pct": -10.358039845892463,
+    "full_allocation_return_pct": 4986.482967439961
+  },
+  "test": {
+    "trades": 593,
+    "win_rate_pct": 67.62225969645868,
+    "profit_factor": 1.4728799627277158,
+    "avg_r_multiple": 0.031402013847158315,
+    "total_return_pct": 19.22206603271739,
+    "max_drawdown_pct": -14.189507668550572,
+    "full_allocation_return_pct": 253.3737451367863
+  },
+  "by_exit": {
+    "staircase-lock": 1112,
+    "time-exit": 361,
+    "stop": 164,
+    "target": 18
+  },
+  "by_source": {
+    "whale_short": 472,
+    "whale_long": 454,
+    "breakout_long": 315,
+    "breakout_short": 279,
+    "both_long": 84,
+    "both_short": 51
+  }
+}
