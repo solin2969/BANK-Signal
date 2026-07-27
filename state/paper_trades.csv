@@ -1,0 +1,2 @@
+entry_time,exit_time,direction,source,entry_price,exit_price,exit_reason,ret_pct,r_multiple,equity
+2026-07-26 22:00:00+00:00,2026-07-27 08:00:00+00:00,long,breakout_long,65412.68,65159.0,time-exit,-0.005278147172688862,-0.3085771823357499,0.9969142281766425
