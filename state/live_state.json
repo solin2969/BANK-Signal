@@ -3,10 +3,20 @@
   "mode": "paper",
   "paper_until": "2026-07-31",
   "equity": 0.9924514304866665,
-  "position": null,
-  "last_bar": "2026-07-30 08:00:00+00:00",
+  "position": {
+    "direction": "short",
+    "source": "whale_short",
+    "entry_time": "2026-07-30 09:00:00+00:00",
+    "entry_price": 64567.56,
+    "stop": 64718.87,
+    "initial_stop": 64718.87,
+    "target": 64264.93999999999,
+    "best_fav": 8.611135375098071e-05,
+    "bars_held": 1
+  },
+  "last_bar": "2026-07-30 10:00:00+00:00",
   "trades": 2,
   "wins": 0,
-  "updated_at": "2026-07-30T09:00:41+00:00",
+  "updated_at": "2026-07-30T11:59:29+00:00",
   "version": 1
 }
