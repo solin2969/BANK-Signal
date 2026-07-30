@@ -227,7 +227,7 @@ if (
 ):
     add_signal(i,"TRAIL_WAVE","EXIT75",96,96,96)
 
-if (
+#if (
     Profit>4
     and
     WhaleExit
