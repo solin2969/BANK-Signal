@@ -132,7 +132,7 @@
 ):
     add_signal(i,"LATE_WAVE_EXIT","EXIT",94,94,94)
 
-if (
+#if (
     WaveAcceleration>0
 ):
     add_signal(i,"WAVE_ACCELERATION","AUTO",93,93,93)
@@ -237,7 +237,7 @@ if (
 # SIGNAL GROUP : EXHAUSTION ENGINE
 # ==========================================================
 
-if (
+#if (
     EnergySlope<0
     and
     EnergyAcceleration<0
@@ -246,7 +246,7 @@ if (
 ):
     add_signal(i,"EARLY_EXHAUSTION_BUY","EXIT25",93,93,93)
 
-if (
+#if (
     EnergySlope<0
     and
     DeltaSlope<0
@@ -441,7 +441,7 @@ if (
 # SIGNAL GROUP : DNA ENGINE
 # ==========================================================
 
-if (
+#if (
     DNA=="TREND"
     and
     BodyRatio>0.70
@@ -908,7 +908,7 @@ if (
 ):
     add_signal(i,"LOWER_HIGH","SHORT",94,94,94)
 
-#if (
+if (
     HigherHighDetected
 ):
     add_signal(i,"HIGHER_HIGH_CONTINUE","LONG",92,92,92)
@@ -927,7 +927,7 @@ if (
 ):
     add_signal(i,"BULL_STRUCTURE","LONG",93,93,93)
 
-#if (
+if (
     MarketStructure=="BEAR"
 ):
     add_signal(i,"BEAR_STRUCTURE","SHORT",93,93,93)
@@ -1063,7 +1063,7 @@ if (
 ):
     add_signal(i,"PYRAMID_LEVEL2","ADD20",97,97,97)
 
-#if (
+if (
     Profit>3
     and
     WhaleStillInside
@@ -1074,12 +1074,12 @@ if (
 # SIGNAL GROUP : POSITION DEFENSE
 # ==========================================================
 
-if (
+#if (
     EntryScoreFalling
 ):
     add_signal(i,"DEFENSE_01","EXIT10",92,92,92)
 
-if (
+#if (
     ExitScoreRising
 ):
     add_signal(i,"DEFENSE_02","EXIT25",94,94,94)
@@ -1089,7 +1089,7 @@ if (
 ):
     add_signal(i,"DEFENSE_03","EXIT50",96,96,96)
 
-if (
+#if (
     OppositeSignals>=5
 ):
     add_signal(i,"DEFENSE_04","EXIT100",100,100,100)
