@@ -2,7 +2,7 @@
 # SIGNAL GROUP : FIBONACCI
 # ==========================================================
 
-if (
+#if (
     NearFib236
     and
     Delta>0
@@ -11,63 +11,63 @@ if (
 ):
     add_signal(i,"FIB_236_LONG","LONG",91,91,91)
 
-if (
+#if (
     NearFib382
     and
     Delta>0
 ):
     add_signal(i,"FIB_382_LONG","LONG",92,92,92)
 
-if (
+#if (
     NearFib500
     and
     WhaleBuy
 ):
     add_signal(i,"FIB_500_LONG","LONG",95,95,95)
 
-if (
+#if (
     NearFib618
     and
     WhaleBuy
 ):
     add_signal(i,"FIB_618_LONG","LONG",97,97,97)
 
-if (
+#if (
     NearFib786
     and
     Delta>0
 ):
     add_signal(i,"FIB_786_LONG","LONG",94,94,94)
 
-if (
+#if (
     NearFib236
     and
     Delta<0
 ):
     add_signal(i,"FIB_236_SHORT","SHORT",91,91,91)
 
-if (
+#if (
     NearFib382
     and
     Delta<0
 ):
     add_signal(i,"FIB_382_SHORT","SHORT",92,92,92)
 
-if (
+#if (
     NearFib500
     and
     WhaleSell
 ):
     add_signal(i,"FIB_500_SHORT","SHORT",95,95,95)
 
-if (
+#if (
     NearFib618
     and
     WhaleSell
 ):
     add_signal(i,"FIB_618_SHORT","SHORT",97,97,97)
 
-if (
+#if (
     NearFib786
     and
     Delta<0
@@ -78,7 +78,7 @@ if (
 # SIGNAL GROUP : BOS
 # ==========================================================
 
-if (
+#if (
     BOSUp
     and
     Delta>0
@@ -87,7 +87,7 @@ if (
 ):
     add_signal(i,"BOS_CONTINUE_LONG","LONG",95,95,95)
 
-if (
+#if (
     BOSDown
     and
     Delta<0
@@ -96,22 +96,22 @@ if (
 ):
     add_signal(i,"BOS_CONTINUE_SHORT","SHORT",95,95,95)
 
-if (
+#if (
     BOSRetestBull
 ):
     add_signal(i,"BOS_RETEST_LONG","LONG",96,96,96)
 
-if (
+#if (
     BOSRetestBear
 ):
     add_signal(i,"BOS_RETEST_SHORT","SHORT",96,96,96)
 
-if (
+#if (
     BOSFailureBull
 ):
     add_signal(i,"FAILED_BOS_LONG","SHORT",94,94,94)
 
-if (
+#if (
     BOSFailureBear
 ):
     add_signal(i,"FAILED_BOS_SHORT","LONG",94,94,94)
@@ -120,14 +120,14 @@ if (
 # SIGNAL GROUP : WAVE
 # ==========================================================
 
-if (
+#if (
     WavePosition<0.20
     and
     EnergySlope>0
 ):
     add_signal(i,"EARLY_WAVE_LONG","LONG",93,93,93)
 
-if (
+#if (
     WavePosition>0.80
 ):
     add_signal(i,"LATE_WAVE_EXIT","EXIT",94,94,94)
@@ -137,12 +137,12 @@ if (
 ):
     add_signal(i,"WAVE_ACCELERATION","AUTO",93,93,93)
 
-if (
+#if (
     WaveStrength>80
 ):
     add_signal(i,"STRONG_WAVE","AUTO",95,95,95)
 
-if (
+#if (
     WaveFailure
 ):
     add_signal(i,"FAILED_WAVE","EXIT",95,95,95)
@@ -151,22 +151,22 @@ if (
 # SIGNAL GROUP : HISTORICAL LEVEL
 # ==========================================================
 
-if (
+#if (
     NearHistoryLow200
 ):
     add_signal(i,"HIST200_BUY","LONG",94,94,94)
 
-if (
+#if (
     NearHistoryHigh200
 ):
     add_signal(i,"HIST200_SELL","SHORT",94,94,94)
 
-if (
+#if (
     NearHistoryLow1000
 ):
     add_signal(i,"HIST1000_BUY","LONG",98,98,98)
 
-if (
+#if (
     NearHistoryHigh1000
 ):
     add_signal(i,"HIST1000_SELL","SHORT",98,98,98)
@@ -175,29 +175,29 @@ if (
 # ANTI SIGNAL GROUP
 # ==========================================================
 
-if (
+#if (
     FiboFailure
 ):
     add_signal(i,"ANTI_FIBO","EXIT",93,93,93)
 
-if (
+#if (
     BOSFailure
 ):
     add_signal(i,"ANTI_BOS","EXIT",94,94,94)
 
-if (
+#if (
     WavePosition>0.90
 ):
     add_signal(i,"ANTI_LATE_WAVE","EXIT",95,95,95)
 
-if (
+#if (
     EnergySlope<0
     and
     DeltaSlope<0
 ):
     add_signal(i,"ANTI_MOMENTUM","EXIT",95,95,95)
 
-if (
+#if (
     WhaleExit
 ):
     add_signal(i,"ANTI_WHALE_EXIT","EXIT",98,98,98)
