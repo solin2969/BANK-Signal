@@ -253,21 +253,21 @@ if (
 ):
     add_signal(i,"EARLY_EXHAUSTION_SELL","EXIT25",93,93,93)
 
-if (
+#if (
     VolumeIncreasing
     and
     EnergyDecreasing
 ):
     add_signal(i,"HIDDEN_EXHAUSTION","EXIT50",95,95,95)
 
-if (
+#if (
     PressureIncreasing
     and
     PriceFlat
 ):
     add_signal(i,"PRESSURE_EXHAUSTION","EXIT50",95,95,95)
 
-if (
+#if (
     DeltaIncreasing
     and
     PriceFlat
@@ -278,26 +278,26 @@ if (
 # SIGNAL GROUP : REVERSAL BARRIER
 # ==========================================================
 
-if (
+#if (
     NearSwingHigh
     and
     EnergySlope<0
 ):
     add_signal(i,"SWING_REVERSAL","EXIT75",96,96,96)
 
-if (
+#if (
     NearSwingLow
     and
     EnergySlope>0
 ):
     add_signal(i,"SWING_REVERSAL_BUY","LONG",96,96,96)
 
-if (
+#if (
     NearHistoryHigh1000
 ):
     add_signal(i,"MAJOR_SUPPLY","EXIT100",99,99,99)
 
-if (
+#if (
     NearHistoryLow1000
 ):
     add_signal(i,"MAJOR_DEMAND","LONG",99,99,99)
@@ -306,35 +306,35 @@ if (
 # SIGNAL GROUP : TREND RESUME
 # ==========================================================
 
-if (
+#if (
     PullbackFinished
     and
     EnergyRecovery
 ):
     add_signal(i,"TREND_RESUME_01","LONG",95,95,95)
 
-if (
+#if (
     PullbackFinished
     and
     DeltaRecovery
 ):
     add_signal(i,"TREND_RESUME_02","LONG",94,94,94)
 
-if (
+#if (
     PullbackFinished
     and
     PressureRecovery
 ):
     add_signal(i,"TREND_RESUME_03","LONG",94,94,94)
 
-if (
+#if (
     WhaleBuy
     and
     TrendDirection>0
 ):
     add_signal(i,"TREND_RESUME_04","LONG",98,98,98)
 
-if (
+#if (
     WhaleSell
     and
     TrendDirection<0
@@ -373,7 +373,7 @@ if (
 ):
     add_signal(i,"SCALE_OUT_50","EXIT50",96,96,96)
 
-if (
+#if (
     Profit>5.0
     and
     MultiResistance
@@ -441,35 +441,35 @@ if (
 # SIGNAL GROUP : DNA ENGINE
 # ==========================================================
 
-if (
+#if (
     DNA=="TREND"
     and
     BodyRatio>0.70
 ):
     add_signal(i,"DNA_TREND_01","AUTO",92,92,92)
 
-if (
+#if (
     DNA=="TREND"
     and
     Energy>AvgEnergy
 ):
     add_signal(i,"DNA_TREND_02","AUTO",93,93,93)
 
-if (
+#if (
     DNA=="ACCUMULATION"
     and
     LowerWickDominant
 ):
     add_signal(i,"DNA_ACCUMULATION_01","LONG",95,95,95)
 
-if (
+#if (
     DNA=="DISTRIBUTION"
     and
     UpperWickDominant
 ):
     add_signal(i,"DNA_DISTRIBUTION_01","SHORT",95,95,95)
 
-if (
+#if (
     DNA=="EXHAUSTION"
 ):
     add_signal(i,"DNA_EXHAUSTION","EXIT",96,96,96)
@@ -478,28 +478,28 @@ if (
 # SIGNAL GROUP : CANDLE DNA
 # ==========================================================
 
-if (
+#if (
     BodyRatio>0.85
     and
     UpperWick<0.10
 ):
     add_signal(i,"MARUBOZU_BULL","LONG",96,96,96)
 
-if (
+#if (
     BodyRatio>0.85
     and
     LowerWick<0.10
 ):
     add_signal(i,"MARUBOZU_BEAR","SHORT",96,96,96)
 
-if (
+#if (
     LowerWick>0.60
     and
     Delta>0
 ):
     add_signal(i,"HAMMER_BUY","LONG",95,95,95)
 
-if (
+#if (
     UpperWick>0.60
     and
     Delta<0
@@ -515,12 +515,12 @@ if (
 ):
     add_signal(i,"ENERGY_WALL","EXIT50",97,97,97)
 
-if (
+#if (
     Energy>HighestEnergy100
 ):
     add_signal(i,"ENERGY_EXTREME","EXIT100",99,99,99)
 
-if (
+#if (
     EnergyRecovering
 ):
     add_signal(i,"ENERGY_RECOVER","AUTO",92,92,92)
@@ -529,28 +529,28 @@ if (
 # SIGNAL GROUP : SMART MONEY DEFENSE
 # ==========================================================
 
-if (
+#if (
     WhaleBuy
     and
     NearHistoryLow200
 ):
     add_signal(i,"SMART_DEFENSE_LONG","LONG",99,99,99)
 
-if (
+#if (
     WhaleSell
     and
     NearHistoryHigh200
 ):
     add_signal(i,"SMART_DEFENSE_SHORT","SHORT",99,99,99)
 
-if (
+#if (
     WhaleBuy
     and
     DeltaIncreasing
 ):
     add_signal(i,"SMART_ACCUMULATION","LONG",98,98,98)
 
-if (
+#if (
     WhaleSell
     and
     DeltaDecreasing
@@ -561,14 +561,14 @@ if (
 # SIGNAL GROUP : STRUCTURE FAILURE
 # ==========================================================
 
-if (
+#if (
     TrendDirection>0
     and
     SwingBrokenDown
 ):
     add_signal(i,"STRUCTURE_FAILURE_LONG","EXIT100",99,99,99)
 
-if (
+#if (
     TrendDirection<0
     and
     SwingBrokenUp
@@ -586,17 +586,17 @@ if (
 # SIGNAL GROUP : FINAL CONFIRMATION
 # ==========================================================
 
-if (
+#if (
     SignalCount>=3
 ):
     add_signal(i,"TRIPLE_CONFIRMATION","BOOST",96,96,96)
 
-if (
+#if (
     SignalCount>=5
 ):
     add_signal(i,"FIVE_CONFIRMATION","BOOST",98,98,98)
 
-if (
+#if (
     SignalCount>=7
 ):
     add_signal(i,"MASTER_CONFIRMATION","BOOST",100,100,100)
@@ -605,27 +605,27 @@ if (
 # SIGNAL GROUP : HARD BLOCKERS
 # ==========================================================
 
-if (
+#if (
     OppositeWhale
 ):
     add_signal(i,"BLOCK_OPPOSITE_WHALE","BLOCK",100,100,100)
 
-if (
+#if (
     MultiBarrierHit
 ):
     add_signal(i,"BLOCK_MULTI_BARRIER","BLOCK",100,100,100)
 
-if (
+#if (
     TrendCompletelyFinished
 ):
     add_signal(i,"BLOCK_TREND_FINISHED","BLOCK",100,100,100)
 
-if (
+#if (
     RegimeFlipConfirmed
 ):
     add_signal(i,"BLOCK_REGIME_CHANGE","BLOCK",100,100,100)
 
-if (
+#if (
     ExtremeExhaustion
 ):
     add_signal(i,"BLOCK_EXHAUSTION","BLOCK",100,100,100)
@@ -658,14 +658,14 @@ if (
 # SIGNAL GROUP : SIGNAL CONFLUENCE ENGINE
 # ==========================================================
 
-if (
+#if (
     EnergySignal
     and
     DeltaSignal
 ):
     add_signal(i,"CONFLUENCE_02","BOOST",92,92,92)
 
-if (
+#if (
     EnergySignal
     and
     DeltaSignal
@@ -674,7 +674,7 @@ if (
 ):
     add_signal(i,"CONFLUENCE_03","BOOST",94,94,94)
 
-if (
+#if (
     EnergySignal
     and
     DeltaSignal
@@ -685,7 +685,7 @@ if (
 ):
     add_signal(i,"CONFLUENCE_04","BOOST",97,97,97)
 
-if (
+#if (
     EnergySignal
     and
     DeltaSignal
@@ -702,22 +702,22 @@ if (
 # SIGNAL GROUP : SIGNAL CASCADE
 # ==========================================================
 
-if (
+#if (
     SignalDensity>=3
 ):
     add_signal(i,"CASCADE_03","BOOST",93,93,93)
 
-if (
+#if (
     SignalDensity>=5
 ):
     add_signal(i,"CASCADE_05","BOOST",95,95,95)
 
-if (
+#if (
     SignalDensity>=8
 ):
     add_signal(i,"CASCADE_08","BOOST",97,97,97)
 
-if (
+#if (
     SignalDensity>=10
 ):
     add_signal(i,"CASCADE_10","BOOST",99,99,99)
@@ -726,22 +726,22 @@ if (
 # SIGNAL GROUP : TREND QUALITY
 # ==========================================================
 
-if (
+#if (
     TrendScore>60
 ):
     add_signal(i,"TREND_Q1","AUTO",90,90,90)
 
-if (
+#if (
     TrendScore>70
 ):
     add_signal(i,"TREND_Q2","AUTO",92,92,92)
 
-if (
+#if (
     TrendScore>80
 ):
     add_signal(i,"TREND_Q3","AUTO",95,95,95)
 
-if (
+#if (
     TrendScore>90
 ):
     add_signal(i,"TREND_Q4","AUTO",98,98,98)
@@ -750,22 +750,22 @@ if (
 # SIGNAL GROUP : ENTRY QUALITY
 # ==========================================================
 
-if (
+#if (
     EntryScore>60
 ):
     add_signal(i,"ENTRY_Q1","LONG",90,90,90)
 
-if (
+#if (
     EntryScore>70
 ):
     add_signal(i,"ENTRY_Q2","LONG",92,92,92)
 
-if (
+#if (
     EntryScore>80
 ):
     add_signal(i,"ENTRY_Q3","LONG",95,95,95)
 
-if (
+#if (
     EntryScore>90
 ):
     add_signal(i,"ENTRY_Q4","LONG",98,98,98)
@@ -824,24 +824,24 @@ if (
 # SIGNAL GROUP : RISK REDUCTION
 # ==========================================================
 
-if (
+#if (
     ExitScore>70
     and
     EntryScore<70
 ):
     add_signal(i,"REDUCE_POSITION_25","EXIT25",94,94,94)
 
-if (
+#if (
     ExitScore>80
 ):
     add_signal(i,"REDUCE_POSITION_50","EXIT50",96,96,96)
 
-if (
+#if (
     ExitScore>90
 ):
     add_signal(i,"REDUCE_POSITION_75","EXIT75",98,98,98)
 
-if (
+#if (
     ExitScore>=100
 ):
     add_signal(i,"FORCE_CLOSE","EXIT100",100,100,100)
