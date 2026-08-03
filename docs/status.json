@@ -2,23 +2,13 @@
   "symbol": "BTCUSDT",
   "mode": "paper",
   "paper_until": "2026-07-31",
-  "equity": 0.9770506197759296,
-  "trades": 5,
-  "wins": 1,
-  "position": {
-    "direction": "short",
-    "source": "breakout_short",
-    "entry_time": "2026-08-03 03:00:00+00:00",
-    "entry_price": 62870.49,
-    "stop": 63796.33,
-    "initial_stop": 63796.33,
-    "target": 61018.80999999999,
-    "best_fav": 0.005065174456251209,
-    "bars_held": 4
-  },
-  "last_bar": "2026-08-03 07:00:00+00:00",
-  "updated_at": "2026-08-03T08:38:25+00:00",
-  "price": 62621.1,
+  "equity": 0.9815847696336916,
+  "trades": 6,
+  "wins": 2,
+  "position": null,
+  "last_bar": "2026-08-03 11:00:00+00:00",
+  "updated_at": "2026-08-03T12:34:14+00:00",
+  "price": 62560.01,
   "recent_trades": [
     {
       "entry_time": "2026-07-26 22:00:00+00:00",
@@ -79,6 +69,18 @@
       "ret_pct": -0.0065391943,
       "r_multiple": -0.3526510836,
       "equity": 0.9770506198
+    },
+    {
+      "entry_time": "2026-08-03 03:00:00+00:00",
+      "exit_time": "2026-08-03 09:00:00+00:00",
+      "direction": "short",
+      "source": "breakout_short",
+      "entry_price": 62870.49,
+      "exit_price": 62357.049,
+      "exit_reason": "staircase-lock",
+      "ret_pct": 0.0068338887,
+      "r_multiple": 0.4640649897,
+      "equity": 0.9815847696
     }
   ]
 }
