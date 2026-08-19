@@ -3,10 +3,20 @@
   "mode": "paper",
   "paper_until": "2026-07-31",
   "equity": 0.962880891486771,
-  "position": null,
-  "last_bar": "2026-08-19 12:00:00+00:00",
+  "position": {
+    "direction": "long",
+    "source": "whale_long",
+    "entry_time": "2026-08-19 13:00:00+00:00",
+    "entry_price": 65012.12,
+    "stop": 64166.0,
+    "initial_stop": 64166.0,
+    "target": 66704.36000000002,
+    "best_fav": 0.0,
+    "bars_held": 0
+  },
+  "last_bar": "2026-08-19 13:00:00+00:00",
   "trades": 15,
   "wins": 5,
-  "updated_at": "2026-08-19T13:03:29+00:00",
+  "updated_at": "2026-08-19T14:45:30+00:00",
   "version": 1
 }
