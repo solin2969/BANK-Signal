@@ -8,15 +8,15 @@
     "source": "whale_long",
     "entry_time": "2026-08-19 15:00:00+00:00",
     "entry_price": 68554.0,
-    "stop": 64166.0,
+    "stop": 69477.391,
     "initial_stop": 64166.0,
     "target": 77330.0,
-    "best_fav": 0.006462059106689617,
-    "bars_held": 4
+    "best_fav": 0.014966158065174975,
+    "bars_held": 5
   },
-  "last_bar": "2026-08-19 19:00:00+00:00",
+  "last_bar": "2026-08-19 20:00:00+00:00",
   "trades": 16,
   "wins": 6,
-  "updated_at": "2026-08-19T20:38:20+00:00",
+  "updated_at": "2026-08-19T21:34:31+00:00",
   "version": 1
 }
