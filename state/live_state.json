@@ -2,21 +2,11 @@
   "symbol": "BTCUSDT",
   "mode": "paper",
   "paper_until": "2026-07-31",
-  "equity": 0.9836520333430648,
-  "position": {
-    "direction": "long",
-    "source": "whale_long",
-    "entry_time": "2026-08-24 13:00:00+00:00",
-    "entry_price": 78597.99,
-    "stop": 79754.10089999999,
-    "initial_stop": 76670.01,
-    "target": 82453.95000000003,
-    "best_fav": 0.01581630777072022,
-    "bars_held": 1
-  },
-  "last_bar": "2026-08-24 14:00:00+00:00",
-  "trades": 21,
-  "wins": 10,
-  "updated_at": "2026-08-24T15:50:11+00:00",
+  "equity": 0.9889890831869574,
+  "position": null,
+  "last_bar": "2026-08-24 15:00:00+00:00",
+  "trades": 22,
+  "wins": 11,
+  "updated_at": "2026-08-24T16:50:17+00:00",
   "version": 1
 }
