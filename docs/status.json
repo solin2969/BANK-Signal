@@ -5,10 +5,20 @@
   "equity": 0.9889890831869574,
   "trades": 22,
   "wins": 11,
-  "position": null,
-  "last_bar": "2026-08-25 00:00:00+00:00",
-  "updated_at": "2026-08-25T01:46:32+00:00",
-  "price": 79739.99,
+  "position": {
+    "direction": "long",
+    "source": "whale_long",
+    "entry_time": "2026-08-25 02:00:00+00:00",
+    "entry_price": 80649.63,
+    "stop": 76838.0,
+    "initial_stop": 76838.0,
+    "target": 88272.89000000001,
+    "best_fav": 0.0,
+    "bars_held": 0
+  },
+  "last_bar": "2026-08-25 02:00:00+00:00",
+  "updated_at": "2026-08-25T03:08:08+00:00",
+  "price": 80649.63,
   "recent_trades": [
     {
       "entry_time": "2026-07-26 22:00:00+00:00",
