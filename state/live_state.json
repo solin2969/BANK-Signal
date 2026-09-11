@@ -2,11 +2,11 @@
   "symbol": "BTCUSDT",
   "mode": "paper",
   "paper_until": "2026-07-31",
-  "equity": 1.0120108335712379,
+  "equity": 1.0304406302336862,
   "position": null,
-  "last_bar": "2026-09-11 13:00:00+00:00",
-  "trades": 31,
-  "wins": 17,
-  "updated_at": "2026-09-11T14:19:25+00:00",
+  "last_bar": "2026-09-11 17:00:00+00:00",
+  "trades": 32,
+  "wins": 18,
+  "updated_at": "2026-09-11T18:23:57+00:00",
   "version": 1
 }
