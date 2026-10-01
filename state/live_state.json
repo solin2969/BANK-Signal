@@ -3,10 +3,20 @@
   "mode": "paper",
   "paper_until": "2026-07-31",
   "equity": 1.0115626728770646,
-  "position": null,
-  "last_bar": "2026-10-01 15:00:00+00:00",
+  "position": {
+    "direction": "long",
+    "source": "breakout_long",
+    "entry_time": "2026-10-01 17:00:00+00:00",
+    "entry_price": 84908.01,
+    "stop": 83186.0,
+    "initial_stop": 83186.0,
+    "target": 88352.02999999998,
+    "best_fav": 0.0043063074967838655,
+    "bars_held": 3
+  },
+  "last_bar": "2026-10-01 20:00:00+00:00",
   "trades": 45,
   "wins": 26,
-  "updated_at": "2026-10-01T16:19:28+00:00",
+  "updated_at": "2026-10-01T21:46:08+00:00",
   "version": 1
 }
