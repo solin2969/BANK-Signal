@@ -2,13 +2,13 @@
   "symbol": "BTCUSDT",
   "mode": "paper",
   "paper_until": "2026-07-31",
-  "equity": 0.981894999314931,
-  "trades": 64,
+  "equity": 0.9716022309752019,
+  "trades": 65,
   "wins": 35,
   "position": null,
-  "last_bar": "2026-11-04 00:00:00+00:00",
-  "updated_at": "2026-11-04T01:13:51+00:00",
-  "price": 77244.14,
+  "last_bar": "2026-11-04 07:00:00+00:00",
+  "updated_at": "2026-11-04T08:59:23+00:00",
+  "price": 78140.0,
   "recent_trades": [
     {
       "entry_time": "2026-07-26 22:00:00+00:00",
@@ -777,6 +777,18 @@
       "ret_pct": 0.0050538087,
       "r_multiple": 0.2647572439,
       "equity": 0.9818949993
+    },
+    {
+      "entry_time": "2026-11-04 03:00:00+00:00",
+      "exit_time": "2026-11-04 05:00:00+00:00",
+      "direction": "short",
+      "source": "whale_short",
+      "entry_price": 76496.04,
+      "exit_price": 78063.3,
+      "exit_reason": "stop",
+      "ret_pct": -0.0214767838,
+      "r_multiple": -1.0482555005,
+      "equity": 0.971602231
     }
   ]
 }
