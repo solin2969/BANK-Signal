@@ -2,23 +2,13 @@
   "symbol": "BTCUSDT",
   "mode": "paper",
   "paper_until": "2026-07-31",
-  "equity": 0.97405363469616,
-  "trades": 70,
-  "wins": 38,
-  "position": {
-    "direction": "short",
-    "source": "whale_short",
-    "entry_time": "2026-11-12 14:00:00+00:00",
-    "entry_price": 71646.0,
-    "stop": 71166.354,
-    "initial_stop": 74811.45,
-    "target": 65315.100000000006,
-    "best_fav": 0.007438517153783914,
-    "bars_held": 9
-  },
-  "last_bar": "2026-11-12 23:00:00+00:00",
-  "updated_at": "2026-11-13T00:09:04+00:00",
-  "price": 71460.0,
+  "equity": 0.9811347916009173,
+  "trades": 73,
+  "wins": 41,
+  "position": null,
+  "last_bar": "2026-11-13 06:00:00+00:00",
+  "updated_at": "2026-11-13T07:48:24+00:00",
+  "price": 69074.43,
   "recent_trades": [
     {
       "entry_time": "2026-07-26 22:00:00+00:00",
@@ -859,6 +849,42 @@
       "ret_pct": 0.007604314,
       "r_multiple": 0.2992335957,
       "equity": 0.9740536347
+    },
+    {
+      "entry_time": "2026-11-12 14:00:00+00:00",
+      "exit_time": "2026-11-13 00:00:00+00:00",
+      "direction": "short",
+      "source": "whale_short",
+      "entry_price": 71646.0,
+      "exit_price": 71166.354,
+      "exit_reason": "staircase-lock",
+      "ret_pct": 0.0053397861,
+      "r_multiple": 0.1208593759,
+      "equity": 0.9752308698
+    },
+    {
+      "entry_time": "2026-11-13 02:00:00+00:00",
+      "exit_time": "2026-11-13 04:00:00+00:00",
+      "direction": "short",
+      "source": "whale_short",
+      "entry_price": 70252.9,
+      "exit_price": 68648.6407,
+      "exit_reason": "staircase-lock",
+      "ret_pct": 0.0219691342,
+      "r_multiple": 0.4428096696,
+      "equity": 0.9795492864
+    },
+    {
+      "entry_time": "2026-11-13 04:00:00+00:00",
+      "exit_time": "2026-11-13 06:00:00+00:00",
+      "direction": "short",
+      "source": "whale_short",
+      "entry_price": 68581.08,
+      "exit_price": 67669.308,
+      "exit_reason": "staircase-lock",
+      "ret_pct": 0.0120739371,
+      "r_multiple": 0.1618606833,
+      "equity": 0.9811347916
     }
   ]
 }
